@@ -1,0 +1,554 @@
+
+
+
+discon
+
+
+
+
+=:> believeđ to provoke
+=!> believed to prevent
+=?> unknown relation (implicit initial between all)
+=~> known as unrelated
+
+[:good():]
+[!bad()!]
+[?unknown()?]
+[~idontcare()~] = idontcare() (no valence)
+
+there are parens() because they can be parameterized
+
+
+
+==================================================
+
+
+
+sensor(dry) =:> gardenController(on)
+
+gardenController(on) =:> water(flows)
+gardenController(on) =:> sprinkler(on)
+
+water(flows) =:> grass(wet)
+sprinkler(on) =:> grass(wet)
+
+cloudy() =:> rain()
+rain() =:> grassWet()
+
+grassWet() =!> drySensor()
+
+[:grassWet():]
+
+
+
+From Judea Pearl, in his Book of Why
+
+if sprinklerOn(), it means that gardenController() was true at previous step
+so it means that waterFlows() is true now too
+it means that grassWet() will be true next step and so on
+
+now if you make an intervention on waterFlows()
+this is an action
+it means we remove arrows provoking waterFlows()
+it means gardenController() is (in all probability) false
+
+
+
+From Friston, on Active Inference
+
+you have this model
+and you have observations
+
+you always try to minimize the differences
+between the model and the observations
+either
+- by modifying the model
+- by acting
+
+you act so the observations conform with the model
+why
+because the model is not only "how things work"
+but also "how I want things to be"
+in other words, it is an optimistic model
+
+sometimes acts are chosen to remove ambiguities
+learning by active experimentation
+
+
+
+Now from Mark Solms, in his Hidden Spring book
+
+the reason for consciousness is that
+it enables adaptive homeostasis
+
+imagine something wrong is happening
+and you don't know the cause of it
+so you don't know how to stop it
+
+you start trying to stop it
+and your feeling is telling you
+whether you're heading in the right direction
+or in the wrong direction
+you "feel your way" through the problem
+to the solution
+
+it lets you find solutions to
+problems you never encountered before
+
+
+
+==================================================
+
+it should be an engine, with
+as input, sensory observations
+as output, an unordered list of possible actions
+
+it should have a model of
+its own behavior
+since it is, itself, a part of the world
+
+it should never have to deal with probabilities
+neither in internal mechanisms
+nor as part of its interface
+
+
+
+==================================================
+
+the distance between a situation and the model is calculated
+
+distance resolution has several steps
+if one step is not enough
+then you use the next step
+
+not yet...
+
+
+
+==================================================
+
+from a situation
+you can predict a range of possible next situations
+
+however these predictions might be limited
+due to a lack of information
+these limits are valuable
+
+the trick is to do both at the same time
+- explorative behavior
+- exploitative behavior
+
+they should be scaled together
+here is how
+
+you're going to do a goal-based search anyway
+start from the wanted destination
+try to go back to where you are
+so you know which action sequences leads to this destination
+
+these spots you're visiting
+they have the potential to make you learn things
+
+visiting spots that make you learn things is rewarded
+
+if utility shows a clear winner path
+go for it
+if not
+go for a path that lets you learn things
+
+
+
+they do it on 1 same scale
+
+
+
+say you do an action A
+you see something B true at the next step
+then you learn that A causes B
+
+then later
+you do action A
+there's no something B the next step
+you learn that after all, A and B are unrelated
+
+2 example iare enough to learn "there's a relation"
+1 counter-example is enough to learn "there's no relation"
+
+once there's no relation, it will stay as is
+so
+0 experience        unknown relation
+2+ similar exp      believed to be provokes-related or prevents-related
+1 counter-exp       known as unrelated
+
+that's the simple case, with only 1 antecedents
+
+but grassWet() needs both waterFlows() and sprinklerOn()
+
+so it's a bit more complicated
+
+also, they can be parameterized (even more complicated)
+
+it would quickly become intractable
+
+so maybe no AND, no "needing both"
+or limited to 2
+
+
+
+==================================================
+
+about the model of the agent itself
+
+the agent believes that it has preferences and goals
+
+it believes it WILL reach its goals (optimism)
+
+so it believes that it will ACT to reach these goals
+
+that is why when it predicts the next step of the world
+it also predicts its own next action
+
+
+
+==================================================
+
+
+
+
+
+
+sensor dry =:> gardenController on
+
+gardenController on =:> water flows
+gardenController on =:> sprinkler on
+
+water flows =:> grass wet
+sprinkler on =:> grass wet
+
+sky cloudy =:> sky rain
+sky rain =:> grass wet
+
+grass wet =/> sensor dry
+
+
+
+it can take variables
+
+    water touch Z =:> Z wet.
+
+
+
+there are things that want to happen (attractors)
+and things that want NOT to happen (repulsors)
+
+they can be provoked
+
+    Z is_alive =::> Z feels hungry.
+
+so
+
+=:> is believeđ to provoke an appearance
+=/> is believed to prevent an appearance
+
+=::> is believeđ to provoke an attractor
+=:/> is believed to provoke a repulsor
+=/:> is believeđ to prevent an attractor
+=//> is believed to prevent a repulsor
+
+<?= is believed to perceive
+
+and * meaning "the world as it is"
+
+    * =::> Z falls_on ground.
+
+
+
+observations come as
+
+    sky blue.
+    grass dry.
+
+and so on
+
+
+
+we need a way of saying "this actor is believed to perceive this appearance"
+
+    bot <?= sky blue
+
+or not
+why is it needed
+
+
+
+we need to express mutually exclusive stuff
+eg. you can't have both
+    sky blue.
+    sky cloudy.
+
+sky blue =/= sky cloudy.
+
+the second = means "at the same step"
+while > usually means "at next step"
+
+so
+=/= believed to be mutually exclusive
+=:= believed to be always co-occurent
+
+
+
+2 observations are needed to set up a belief
+because if one was enough, there would be combinatorial explosions every now and then
+
+but 1 counter-example is enough to destroy a belief
+
+
+
+
+=:>     believeđ to provoke an appearance
+=/>     believed to prevent an appearance
+=~>     known to be unrelated
+
+=/=     believed to be mutually exclusive
+=:=     believed to be always co-occurent
+=~=     known to be not mutually exclusive
+
+=::>    believeđ to provoke an attractor
+=/:>    believeđ to prevent an attractor
+=~:>    known to be unrelated to an attractor
+
+=:/>    believed to provoke a repulsor
+=//>    believed to prevent a repulsor
+=~/>    known to be unrelated to a repulsor
+
+
+
+
+
+- more information is better than less information
+- a short path is better than a long path
+- 1 cause is better than 2 causes
+- mutually exclusive is better than not mutually exclusive
+
+
+
+
+==================================================
+
+
+EDed
+
+it's all in the main loop
+
+- build predictions
+- choose the best prediction
+- act accordingly
+- do it again
+
+
+
+# building predictions
+
+the agent maintains several theories about how the world works
+
+each of these theories can yield a prediction
+
+
+
+
+
+
+    A =:> B | C
+
+A is believed to provoke B in the context C
+
+    A =/> B | C
+
+A is believed to prevent B in the context C
+
+
+    sky rain =:> grass wet | garden
+
+
+
+
+
+
+
+
+
+
+
+an attractor is something that tends to happen even when nothing provokes it
+an attractor always happens if nothing prevents it
+
+a repulsor is something that tends NOT to happen even when nothing prevents it
+a repulsor never happens if nothing provokes it
+
+:>
+/>
+
+
+
+/> grass wet
+/> grass dry
+
+
+
+
+it's a scale ??
+
+attractors are ordered according to their strength
+which means you're counting them
+not good
+
+
+
+
+
+==================================================
+
+
+
+predictions are like closures
+
+they should embed everything about theories
+and learning
+and actions of course
+
+for now, predictions never produce unknown outcomes
+
+so there should be predictions based on beliefs
+= semantic predictions
+
+and sort of "wild" predictions
+= syntactic predictions
+
+
+
+time to drop the proto ?
+
+
+
+
+==================================================
+
+we need a syntax for math
+
+and for numerical wildcards
+
+
+move up, top Y() =:> top Y(+1)
+
+adding, x is X(), y is Y() =:> z is X(+Y)
+
+adding, x is (X), y is (Y) =:> z is (X+Y)
+
+adding, x is =(X), y is =(Y) =:> z is +(X,Y)
+
+
+
+
+==================================================
+
+normal execution
+is
+a dynamic tree of calls
+a call stack
+
+we want it to be handled
+
+like a thought stack
+or not
+
+
+kanban-style
+
+"needs"
+
+"goals"
+
+"need"
+    is a tag on an incomplete value to indicate that we want to complete it
+
+"goal"
+    is a tag on what describes an unreal but wanted situation
+
+"goal" & "need"
+    "desire" : a positive (want to reach it) or negative (want to avoid it) number / big number = big desire
+    "urgency" : a positive number / big number = urgent / zero = won't even try
+
+except we don't want numbers!
+
+so => ordering
+
+behavior graph?
+
+
+we mostly need discipline
+
+but still need a base execution model
+
+
+
+
+
+==================================================
+
+
+https://github.com/pvorb/clone/blob/master/clone.js
+
+
+
+
+
+==================================================
+
+LinkedKnowledge
+
+
+{
+    @id         // node identifier
+    @ns         // theory namespace
+    @doc        // url of node documentation
+    @date       // last modification timestamp
+
+    @out {      // outgoing edges
+        @isa    // classes of this (instance) node
+        @gen    // superclasses of this (class) node
+    }
+    @in {       // incoming edges
+        @isa    // instances of this (class) node
+        @gen    // subclasses of this (class) node
+    }
+}
+
+
+
+
+
+==================================================
+
+activity
+
+
+Intuition 1:
+
+    There are four kinds of entities required for reasoning about processes -- activities, activity occurrences, timepoints, and objects.
+
+Intuition 2:
+
+    Activities may have multiple occurrences, or there may exist activities that do not occur at all.
+
+Intuition 3:
+
+    Timepoints are linearly ordered, forwards into the future, and backwards into the past.
+
+Intuition 4:
+
+    Activity occurrences and objects are associated with unique timepoints that mark the begin and end of the occurrence or object. 
+
+
+
+
+
