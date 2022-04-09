@@ -293,6 +293,14 @@ class Node {
             for (let c of classes) this.unlink("@gen", c, true);
         return this;
     }
+
+    focus() {
+        this["@kb"].ctrl.focusManager.focus(this.key());
+    }
+
+    blur() {
+        this["@kb"].ctrl.focusManager.blur(this.key());
+    }
 }
 
 
@@ -340,7 +348,7 @@ class IntentManager {
 
 
 
-/* Focus
+/* Focus Manager
  *
  */
 
@@ -369,6 +377,47 @@ class FocusManager {
 
 
 
+/* Kanban Card
+ *
+ */
+
+
+
+class Card {
+
+    deck = new Set();
+    outcome = new Set();
+
+    constructor(ctrl, parent, task) {
+        Object.assign({ ctrl, parent, task, outcome: null });
+    }
+
+    card(task) {
+        let card = new Card(this.ctrl, this, task);
+        this.deck.add(card);
+        return card;
+    }
+
+    outcome(value) {
+        this.outcome.add(value);
+        return this;
+    }
+
+    delete() {
+        if (!this.parent) return this;
+        this.gather();
+        for (let item of this.outcome) this.parent.outcome.add(item);
+        this.parent.deck.delete(this);
+    }
+
+    gather() {
+        for (let child of this.deck) child.delete();
+        return this;
+    }
+}
+
+
+
 /* CTRL Main Entry Point
  *
  */
@@ -382,6 +431,7 @@ class CTRL {
         this.knowledgeBase = new LinkedKnowledge(this, this.sensitiveMap);
         this.intentManager = new IntentManager(this, this.knowledgeBase);
         this.focusManager = new FocusManager(this, this.knowledgeBase);
+        this.kanban = new Card(this, false, "root");
     }
 
     // Sensitive Map
