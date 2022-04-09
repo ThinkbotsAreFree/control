@@ -386,10 +386,10 @@ class FocusManager {
 class Card {
 
     deck = new Set();
-    outcome = new Set();
+    values = new Set();
 
     constructor(ctrl, parent, task) {
-        Object.assign({ ctrl, parent, task, outcome: null });
+        Object.assign(this, { ctrl, parent, task });
     }
 
     card(task) {
@@ -399,14 +399,14 @@ class Card {
     }
 
     outcome(value) {
-        this.outcome.add(value);
+        this.values.add(value);
         return this;
     }
 
     delete() {
         if (!this.parent) return this;
         this.gather();
-        for (let item of this.outcome) this.parent.outcome.add(item);
+        for (let value of this.values) this.parent.values.add(value);
         this.parent.deck.delete(this);
     }
 
